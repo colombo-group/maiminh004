@@ -7,10 +7,42 @@
     <style type="text/css">
       .show>table{
         margin:0 auto;
+        padding: 10px 10px;
+        background-color: #f8f8f8; 
+        border:none;
+      }
+      .show>table:first-child{
+        background-color: #00b8ec;
+      }
+      
+      .show table th {
+        color: #ffffff;
+        border: none;
+      }
+      .show table input {
+        height: 24px;
+        width: 28px;
+        background-color: #00b8ec;
+        border:none;
+        color:#ffffff;
+        font-size: 20px;
+      }
+      .show table input:hover {
+        cursor: pointer;
+        color:red;
+      }
+      .show table td {
+        height:20px;
+        color: #9a9a9a;
+        background-color: #f8f8f8;
       }
       .show tr>td {
         text-align: center;
         width:30px;
+        /*border-radius: 5px;*/
+        border: none;
+        margin:0;
+        padding:0;
       }
       .show tr>th:nth-child(1),tr>th:nth-child(3) {
         cursor:pointer;
@@ -29,9 +61,11 @@
       var initDateTime = new Date();
       var gDay = initDateTime.getDay();
       var gDate = initDateTime.getDate();
-      var today = gDate;
       var gMonth = initDateTime.getMonth();
       var gYear = initDateTime.getFullYear();
+      var today = gDate;
+      var currentYear = gYear;
+      var currentMonth = gMonth;
       //show white-space
       var startSpace = gDate;
       while (startSpace > 7) {
@@ -109,8 +143,8 @@
         }
         while (count <= dEndDayOfMonth[gMonth]) {
           for (t = startSpace; t < 7; t++) {
-            if (count == today) {
-              content += '<td style="color:red";>' + count + '</td>';
+            if (count == today && gMonth == currentMonth && gYear == currentYear  ) {
+              content += '<td style="color:white; background-color:#00b8ec; border-radius:50%;s">' + count + '</td>';
             } else if (count <= dEndDayOfMonth[gMonth]) {
               content += '<td>' + count + '</td>';
             } else {
