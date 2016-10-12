@@ -8,24 +8,33 @@
       .calculator>table, .calculator>#display{
         margin:0 auto;
         border:black solid 1px;
-
+        padding:10px;
+        background-color: #f9f9f9;
+      }
+      table {
+        border-radius: 0px 0px 10px 10px;
       }
       .calculator>#display>#display-inner{
-        width:160px;
-        float:right;
-        padding: 10px 10px;
+        margin: 5px auto;
         overflow: hidden;
+        border: black solid 1px;
+        height:50px;
+        width:240px;
+        font-size: 20px;
+        background-color: #e5e7de;
       }
-      .calculator>tr>td#display>#display-inner {
 
-      }
       #display{
-        width: 180px;
-        height: 50px;
+        margin: 0 auto;
+        width: 258px;
+        height: 70px;
         border:black solid 1px;
+        border-radius: 10px 10px 0px 0px;
       }
       tr>td button{
-        width:40px;
+        width:60px;
+        height:40px;
+        font-size:20px;
       }
       tr>td button:hover {
         cursor:pointer;
@@ -35,6 +44,7 @@
   </head>
   <body>
     <script type="text/javascript">
+      var mm=0;
       function calculate(value) {
         var operation = '';
         operation += value;
@@ -44,7 +54,13 @@
 
       function result() {
         if(document.getElementById('display-inner').innerHTML != ''){
-        document.getElementById('display-inner').innerHTML = eval(document.getElementById('display-inner').innerHTML);
+        try{
+          document.getElementById('display-inner').innerHTML = eval(document.getElementById('display-inner').innerHTML);
+        }
+        catch (e) {
+          document.getElementById('display-inner').innerHTML = 'Math Error';
+        }
+          
         }
       else {
         document.getElementById('display-inner').innerHTML = 0;
@@ -68,6 +84,7 @@
             m += '+' + document.getElementById('display-inner').innerHTML;
 
           } //end child if
+          mm=eval(m);
         }
         if (value == 'subtract' && content != '') {
           if (count == 0) {
@@ -77,6 +94,7 @@
             m += '-' + document.getElementById('display-inner').innerHTML;
 
           } //end child if
+          mm=eval(m);
         }
         if (count != 0 && document.getElementById('display-inner').innerHTML != '') {
             m = eval(m);
@@ -86,6 +104,10 @@
       function mclear() {
         m = 0;
         count = 0;
+        mm=0;
+      }
+      function mr() {
+        document.getElementById('display-inner').innerHTML = mm;
       }
     </script>
     <div class="calculator" id="calculator">
@@ -94,11 +116,13 @@
         <tr>
 
         <div id="display">
-          <div id="display-inner"></div>
+          <div id="display-inner" class="inner"></div>
         </div>
         </tr>
         <tr>
-          <td colspan=4 align="center"><button onclick="reset()">AC</button></td>
+          <td colspan=2 align="center"><button onclick="reset()">AC</button></td>
+        
+          <td colspan=2 align="center"><button onclick="mr()">MR</button></td>
         </tr>
         <tr>
           <td><button onclick="memory('plus')">M+</button></td>
