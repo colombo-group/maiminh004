@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Full-calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css" >
+      .calculator>table, .calculator>#display{
+        margin:0 auto;
+        border:black solid 1px;
+
+      }
+      .calculator>#display>#display-inner{
+        width:160px;
+        float:right;
+        padding: 10px 10px;
+        overflow: hidden;
+      }
+      .calculator>tr>td#display>#display-inner {
+
+      }
+      #display{
+        width: 180px;
+        height: 50px;
+        border:black solid 1px;
+      }
+      tr>td button{
+        width:40px;
+      }
+      tr>td button:hover {
+        cursor:pointer;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      function calculate(value) {
+        var operation = '';
+        operation += value;
+        var result = document.getElementById('display-inner').innerHTML += operation;
+
+      }
+
+      function result() {
+        if(document.getElementById('display-inner').innerHTML != ''){
+        document.getElementById('display-inner').innerHTML = eval(document.getElementById('display-inner').innerHTML);
+        }
+      else {
+        document.getElementById('display-inner').innerHTML = 0;
+      }
+      }
+      function reset() {
+        document.getElementById('display-inner').innerHTML = '';
+      }
+      function backspace() {
+        document.getElementById('display-inner').innerHTML = document.getElementById('display-inner').innerHTML.slice(0, -1);
+      }
+      var m = '';
+      var count = 0;
+      function memory(value) {
+        var content = document.getElementById('display-inner').innerHTML;
+        if (value == 'plus' && content != '') {
+          if (count == 0) {
+            m += document.getElementById('display-inner').innerHTML;
+            count++;
+          } else {
+            m += '+' + document.getElementById('display-inner').innerHTML;
+
+          } //end child if
+        }
+        if (value == 'subtract' && content != '') {
+          if (count == 0) {
+            m += '-'+document.getElementById('display-inner').innerHTML;
+            count++;
+          } else {
+            m += '-' + document.getElementById('display-inner').innerHTML;
+
+          } //end child if
+        }
+        if (count != 0 && document.getElementById('display-inner').innerHTML != '') {
+            m = eval(m);
+          }
+          document.getElementById('display-inner').innerHTML = m.valueOf();
+      }
+      function mclear() {
+        m = 0;
+        count = 0;
+      }
+    </script>
+    <div class="calculator" id="calculator">
+
+      <table>
+        <tr>
+
+        <div id="display">
+          <div id="display-inner"></div>
+        </div>
+        </tr>
+        <tr>
+          <td colspan=4 align="center"><button onclick="reset()">AC</button></td>
+        </tr>
+        <tr>
+          <td><button onclick="memory('plus')">M+</button></td>
+          <td><button onclick="memory('subtract')">M-</button></td>
+          <td><button onclick="mclear('clear')">MC</button></td>
+          <td><button onclick="calculate('/')">/</button></td>
+        </tr>
+        <tr>
+          <td><button onclick="calculate(7)">7</button></td>
+          <td><button onclick="calculate(8)">8</button></td>
+          <td><button onclick="calculate(9)">9</button></td>
+          <td><button onclick="calculate('*')">x</button></td>
+        </tr>
+        <tr>
+          <td><button onclick="calculate(4)">4</button></td>
+          <td><button onclick="calculate(5)">5</button></td>
+          <td><button onclick="calculate(6)">6</button></td>
+          <td><button onclick="calculate('+')">+</button></td>
+        </tr>
+        <tr>
+          <td><button onclick="calculate(1)">1</button></td>
+          <td><button onclick="calculate(2)">2</button></td>
+          <td><button onclick="calculate(3)">3</button></td>
+          <td><button onclick="calculate('-')">-</button></td>
+        </tr>
+        <tr>
+          <td><button onclick="calculate(0)">0</button></td>
+          <td><button onclick="calculate('.')">.</button></td>
+          <td><button onclick="backspace()">C</button></td>
+          <td><button onclick="result()">=</button></td>
+        </tr>
+
+      </table>
+
+    </div>
+  </body>
+</html>

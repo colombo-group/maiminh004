@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Full-Calendar</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+      .show>table{
+        margin:0 auto;
+      }
+      .show tr>td {
+        text-align: center;
+        width:30px;
+      }
+      .show tr>th:nth-child(1),tr>th:nth-child(3) {
+        cursor:pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      
+      var nNameOfMonth = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Junly', 'August', 'September', 'October', 'November', 'December');
+      var dEndDayOfMonth = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+      var nShortName = new Array('Sun', 'M', 'Tu', 'W', 'Th', 'F', 'Sat');
+      var nFullName = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+
+      //initialize date time now
+      var initDateTime = new Date();
+      var gDay = initDateTime.getDay();
+      var gDate = initDateTime.getDate();
+      var today = gDate;
+      var gMonth = initDateTime.getMonth();
+      var gYear = initDateTime.getFullYear();
+      //show white-space
+      var startSpace = gDate;
+      while (startSpace > 7) {
+        startSpace -= 7;
+      }
+      startSpace = gDay - startSpace + 1;
+      if (startSpace < 0) {
+        startSpace += 7;
+      }
+      var countPrev = 0;
+      var content = '';
+      var count = 1;
+      
+      function leadYear() {
+        if ((gYear % 4 == 0 && (gYear % 100 != 0)) || gYear % 400 == 0)
+          dEndDayOfMonth[1] = 29;
+        else
+          dEndDayOfMonth[1] = 28;
+      }
+
+      function prev() {
+        gMonth--;
+        if (gMonth < 0) {
+          gMonth = 11;
+          gYear--;
+          document.getElementById('year').innerHTML = nFullName[gDay] + ' ' + (gYear);
+        }
+        leadYear();
+        document.getElementById('month').innerHTML = nNameOfMonth[gMonth];
+        //change date table
+        startSpace = dEndDayOfMonth[gMonth];
+        while (startSpace > 7) {
+          startSpace -= 7;
+        }
+        startSpace = countPrev - startSpace;
+        countPrev = 0;
+        if (startSpace < 0) {
+          startSpace += 7;
+        }
+        changeDateTime();
+        document.getElementById('date').innerHTML = content;
+        content = '';
+      }
+      var countNext = 0;
+      function next() {
+        gMonth++;
+        if (gMonth > 11) {
+          gMonth = 0;
+          gYear++;
+          document.getElementById('year').innerHTML = nFullName[gDay] + ' ' + (gYear);
+        }
+        leadYear();
+        document.getElementById('month').innerHTML = nNameOfMonth[gMonth];
+        startSpace = countNext;
+        while (startSpace > 7) {
+          startSpace -= 7;
+        }
+        startSpace = 5 - startSpace + 2;
+        if (startSpace < 0) {
+          startSpace += 7;
+        }
+        changeDateTime();
+        document.getElementById('date').innerHTML = content;
+        content = '';
+      }
+
+      function changeDateTime() {
+        leadYear();
+        countNext = 0;
+        countPrev = 0;
+        content += '<tr>';
+        for (j = 0; j < startSpace; j++) {
+          content += '<td>...</td>';
+          countPrev++;
+        }
+        while (count <= dEndDayOfMonth[gMonth]) {
+          for (t = startSpace; t < 7; t++) {
+            if (count == today) {
+              content += '<td style="color:red";>' + count + '</td>';
+            } else if (count <= dEndDayOfMonth[gMonth]) {
+              content += '<td>' + count + '</td>';
+            } else {
+              content += '<td>...</td>';
+              countNext++;
+            }
+            count++;
+          }
+          content += '</tr>';
+          startSpace = 0;
+        }
+        count = 1;
+      }
+      function dateTimeNow() {
+        content += '<table border = 1>';
+        content += '<tr><th ><input type="button" value="<" onclick="prev()"/> </th>';
+        content += '<th colspan=5 id="month">' + nNameOfMonth[gMonth] + '</th>';
+        content += '<th > <input type="button" value=">" onclick="next()"/></th></tr>';
+        content += '<tr><th colspan=7 id="year">' + nFullName[gDay] + ' ' + (gYear) + '</th></tr>';
+        content += '<tr>';
+        for (n = 0; n < nShortName.length; n++) {
+          content += '<td>' + nShortName[n] + '</td>';
+        }
+        content += '</tr>';
+        content += '</table>';
+        content += '<table border=1px  id="date">';
+        changeDateTime();
+        content += '</tr></table>';
+        document.getElementById("show").innerHTML = content;
+        content = '';
+      }
+    </script>
+    <div id="show" class="show">
+      <script>
+        dateTimeNow();
+      </script>
+    </div>
+  </body>
+</html>
